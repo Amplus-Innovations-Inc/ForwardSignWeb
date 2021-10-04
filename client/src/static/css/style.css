@@ -1,0 +1,452 @@
+.course-outer {
+  padding-top: 70px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 60px;
+}
+
+.remove-resize-text-area {
+  resize: none;
+}
+
+.python-course-code-mirror-border {
+  border: 1px solid #ced4da;
+}
+
+.CodeMirror {
+  height: 100% !important;
+}
+
+.CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.img-loading {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/loading.gif");
+  background-size: 80px;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10000000;
+  opacity: 1;
+  filter: alpha(opacity=40);
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutOpacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.img-icon-popup {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10000000;
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+}
+
+.fadein {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 2s;
+}
+
+.fadeout {
+  opacity: 0;
+  animation-name: fadeOutOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 6s;
+}
+
+button:hover:enabled {
+  transition: all 0.3s ease 0s;
+  box-shadow: 8px 10px 15px rgba(46, 229, 157, 0.2);
+  transform: translateX(0.2px) translateY(-0.4px);
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  letter-spacing: 2.5px;
+  text-orientation: upright;
+}
+
+.min-h-36 {
+  min-height: 36% !important;
+}
+
+.h-70 {
+  height: 70% !important;
+}
+
+.h-60 {
+  height: 60% !important;
+}
+
+.h-90 {
+  height: 90%;
+}
+
+.h-82 {
+  height: 82%;
+}
+
+.python-course-editor-result-background {
+  background-color: lightgray;
+  padding-bottom: 15px;
+}
+
+.padding-bottom-5px {
+  padding-bottom: 5px;
+}
+
+.padding-right-5px {
+  padding-right: 5px;
+}
+
+.padding-right-15px {
+  padding-right: 15px;
+}
+
+.padding-top-5px {
+  padding-top: 5px;
+}
+
+.audio-speaker {
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 5px rgb(0 0 0 / 40%);
+  margin-bottom: 2px;
+}
+
+.question-button {
+  border-radius: 50%;
+  font-size: 20px;
+  width: 44px;
+  height: 44px;
+}
+
+.question-button-large {
+  border-radius: 50%;
+  font-size: 32px;
+  width: 90px;
+  height: 90px;
+}
+
+.language-fit-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.language-fit-image-90 {
+  width: 90%;
+  object-fit: cover;
+}
+
+.container-button-on-image {
+  position: relative;
+  width: 100%;
+}
+
+.container-button-on-image img {
+  width: 100%;
+  height: auto;
+}
+
+.container-button-on-image .btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.opacity-08 {
+  opacity: 0.8;
+}
+
+.bg-close-green {
+  background-color: #28a745;
+}
+
+.bg-close-yellow {
+  background-color: #ffc107;
+}
+
+.bg-close-red {
+  background-color: #dc3545;
+}
+
+.text-color-close-green {
+  color: #28a745;
+}
+
+.text-color-close-yellow {
+  color: #ffc107;
+}
+
+.text-color-close-red {
+  color: #dc3545;
+}
+
+.margin-bottom-20px {
+  margin-bottom: 20px;
+}
+
+.margin-top-5px {
+  margin-top: 5px;
+}
+
+.margin-bottom-10px {
+  margin-bottom: 10px;
+}
+
+.padding-30px {
+  padding: 30px;
+}
+
+.padding-20px {
+  padding: 20px;
+}
+
+.padding-10px {
+  padding: 10px;
+}
+
+/* for sidebar */
+
+#page-wrap {
+  text-align: center;
+
+  /* Prevent sidebar from showing a scrollbar on page */
+  overflow: auto;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Our sidebar item styling */
+  text-decoration: none;
+  margin-bottom: 10px;
+  color: #d1d1d1;
+  transition: color 0.2s;
+}
+
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 30px;
+  top: 80px;
+}
+
+/* Color/shape of burger icon bars background: rgb(16, 37, 70); */
+.bm-burger-bars {
+  background: rgb(16, 37, 70);
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: rgb(16, 37, 70);
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: rgb(16, 37, 70);
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.bm-menu-wrap {
+  width: 120px !important;
+}
+
+.zindex-menu {
+  z-index: 10000;
+}
+
+.signout-header {
+  padding-top: 2px;
+  color: #6c757d;
+}
+
+.signout-header:hover,
+#time-series span:hover,
+#ellipsivId svg path:hover {
+  color: white;
+  cursor: default;
+}
+
+#syncId:hover {
+  color: white;
+  cursor: default;
+}
+
+.percentage-45 {
+  width: 45%;
+}
+
+.percentage-55 {
+  width: 55%;
+}
+
+#time-series span {
+  padding-right: 10px;
+  color: gray;
+}
+
+.padding-bottom-20px {
+  padding-bottom: 20px;
+}
+
+.padding-top-10px {
+  padding-top: 10px;
+}
+
+.padding-bottom-10px {
+  padding-bottom: 10px;
+}
+
+.padding-top-20px {
+  padding-top: 20px;
+}
+
+.padding-lelf-30px {
+  padding-left: 30px;
+}
+
+.deepskyblue {
+  color: deepskyblue;
+}
+
+.display-grid {
+  display: grid;
+}
+
+.bglightgrey {
+  background-color: lightgrey;
+}
+
+.dropzone {
+  width: 98%;
+  text-align: center;
+  padding: 30px;
+  border: 2px dashed rgb(213, 234, 238);
+  background-color: #fafafa;
+  color: #bdbdbd;
+}
+
+.ul-dropbox {
+  margin: 0;
+}
+
+.border-radius-5px {
+  border-radius: 5px;
+}
+
+.border-radius-30px {
+  border-radius: 30px;
+}
+
+.gif_player .play_button {
+  font-size: 16px !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 10px 15px !important;
+}
+
+.gif_player .play_button::after {
+  content: "\f04b" !important;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.no_wrap_white_space {
+  white-space: nowrap;
+}
+
+.textarea-container {
+  position: relative;
+}
+.textarea-container textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.textarea-container button {
+  position: absolute;
+  bottom: 5px;
+  right: 45.5%;
+}
+
+.min-h-100 {
+  min-height: 100%;
+}
+
+.emoji-picker__wrapper {
+  z-index: 1051;
+}
