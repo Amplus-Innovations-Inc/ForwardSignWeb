@@ -41,22 +41,7 @@ class LoginPage extends Component {
     });
   };
 
-  componentDidMount() {
-    const token = this.cookies.get("token");
-    if (token !== undefined) {
-      axios
-        .get(`/api/getAuthenticateByToken/${token}`)
-        .then((res) => {
-          if (res.status === 200) {
-            this.setState({
-              userName: res.data.userName,
-              password: res.data.password,
-            });
-          }
-        })
-        .catch((e) => {});
-    }
-  }
+  componentDidMount() {}
 
   onChange = (e) => {
     const { name } = e.target;
@@ -70,14 +55,18 @@ class LoginPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     if (this.validator.allValid()) {
       axios
         .post("/api/login", {
           userName: this.state.userName,
           password: this.state.password,
         })
-        .then((res) => {})
+        .then((res) => {
+          sessionStorage.setItem("token", res.data.token);
+          sessionStorage.setItem("firstName", res.data.firstName);
+          this.props.userLogin(res.data.firstName);
+          this.props.history.push("/home");
+        })
         .catch((e) => {
           toast.error("Failed to login:" + e);
         });

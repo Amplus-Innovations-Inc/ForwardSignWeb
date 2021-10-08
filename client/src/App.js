@@ -14,6 +14,7 @@ import FooterPage from "./components/navigation/FooterPage";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./static/css/App.css";
 import "./static/css/style.css";
+import HomePage from "./components/HomePage";
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +41,13 @@ class App extends Component {
             <div>
               <MenuPage />
               <div className="root-app" style={{ paddingTop: "54px" }}>
-                <Switch></Switch>
+                <Switch>
+                  <Route
+                    exact
+                    path="/home"
+                    render={() => this.isRender(HomePage)}
+                  />
+                </Switch>
               </div>
               <FooterPage />
             </div>

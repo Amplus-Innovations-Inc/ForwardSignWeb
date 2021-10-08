@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt, faBell } from "@fortawesome/free-solid-svg-icons";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import MaleImg from "../../static/images/male_user.png";
+import LogoImg from "../../static/images/Forward-signs.png";
 
 function MenuPage({ userName }) {
   function clickSignOut(e) {
@@ -17,8 +17,8 @@ function MenuPage({ userName }) {
       {userName !== "" && (
         <Navbar expand="lg" className="navbar-light fixed-top zindex-menu">
           <Container fluid>
-            <Navbar.Brand href="#home" style={{ color: "white" }}>
-              Logo
+            <Navbar.Brand href="" style={{ color: "white" }}>
+              <img src={LogoImg} width="36" height="36" alt="user" />{" "}
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse
@@ -28,31 +28,18 @@ function MenuPage({ userName }) {
               <Nav className="me-auto">
                 <ul className="navbar-nav ml-auto">
                   <div className="d-flex justify-content-between">
-                    <div className="input-group rounded percentage-45">
-                      <input
-                        type="search"
-                        className="form-control rounded"
-                        placeholder="Search"
-                        aria-label="Search"
-                        aria-describedby="search-addon"
-                      />
-                    </div>
-
-                    <div
-                      className="signout-header"
-                      style={{ marginLeft: "20px" }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faBell}
-                        className=" subject-level-star-icon fa-lg"
-                      />
-                    </div>
-
                     <h6
                       className="menu-h6-center"
                       style={{ marginLeft: "30px" }}
                     >
-                      <img src={MaleImg} width="40" height="36" alt="user" />{" "}
+                      <img
+                        src={`https://ui-avatars.com/api/name=${userName}&background=random`}
+                        width="36"
+                        height="36"
+                        alt="user"
+                        style={{ borderRadius: "18px" }}
+                      />{" "}
+                      &nbsp;&nbsp;&nbsp;
                       <b>{userName} </b>
                     </h6>
 

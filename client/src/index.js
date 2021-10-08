@@ -8,6 +8,11 @@ import "./static/css/index.css";
 
 const store = configureStore();
 
+store.dispatch({
+  type: "USER_LOGIN",
+  userName: sessionStorage.firstName,
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
