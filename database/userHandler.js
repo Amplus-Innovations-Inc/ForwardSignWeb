@@ -18,7 +18,6 @@ module.exports.authenticateUser = async (req, res, next) => {
         return res.json({
           token: results[0].token,
           firstName: results[0].firstName,
-          role: results[0].role,
         });
       } else {
         return res.json({

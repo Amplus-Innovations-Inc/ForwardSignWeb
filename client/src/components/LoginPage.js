@@ -62,10 +62,18 @@ class LoginPage extends Component {
           password: this.state.password,
         })
         .then((res) => {
-          sessionStorage.setItem("token", res.data.token);
-          sessionStorage.setItem("firstName", res.data.firstName);
-          this.props.userLogin(res.data.firstName);
-          this.props.history.push("/home");
+          if (res.data.token === "0000" && res.data.firstName === "") {
+            toast.error("Email has not been activated yet!");
+          } else {
+            if (res.data.token === "" && res.data.firstName === "") {
+              toast.error("Invalid email and password!");
+            } else {
+              sessionStorage.setItem("token", res.data.token);
+              sessionStorage.setItem("firstName", res.data.firstName);
+              this.props.userLogin(res.data.firstName);
+              this.props.history.push("/home");
+            }
+          }
         })
         .catch((e) => {
           toast.error("Failed to login:" + e);
@@ -102,7 +110,7 @@ class LoginPage extends Component {
                     </div>
                   </h3>
                   <div className="form-group">
-                    <label>Username</label>
+                    <label>Email</label>
                     <input
                       name="userName"
                       value={this.state.userName}

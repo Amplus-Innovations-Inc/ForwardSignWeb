@@ -4,3 +4,34 @@
 [2021/10/04 08:41:11] error: username is not defined
 [2021/10/04 08:43:09] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nzg=
 [2021/10/04 08:43:25] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nzg=
+[2021/10/11 08:16:34] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1B
+[2021/10/11 08:16:50] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nw==
+[2021/10/11 08:18:02] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nw==
+[2021/10/11 08:23:57] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nw==
+[2021/10/11 08:24:05] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2NzI=
+[2021/10/11 08:28:34] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nw==
+[2021/10/11 12:36:06] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1B
+[2021/10/11 15:15:56] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1B
+[2021/10/11 19:46:29] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1D
+[2021/10/11 20:12:20] error: SyncedTool is not defined
+[2021/10/11 20:13:09] error: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+[2021/10/11 20:14:05] error: ret is not defined
+[2021/10/11 20:43:11] error: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+[2021/10/11 21:02:08] error: Command failed: soffice --headless --convert-to pdf C:\Users\anh_t\AppData\Local\Temp/1634011287650.12 --outdir C:\Users\anh_t\AppData\Local\Temp/1634011287651.9373
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/10/11 21:04:43] error: Command failed: soffice --headless --convert-to pdf C:\Users\anh_t\AppData\Local\Temp/1634011412375.6477 --outdir C:\Users\anh_t\AppData\Local\Temp/1634011412376.6912
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/10/11 21:33:07] error: EBUSY: resource busy or locked, open 'C:\Working\Projects\ForwardSignWeb-temp\AnnuaForm.pdf'
+[2021/10/11 21:33:15] error: EBUSY: resource busy or locked, open 'C:\Working\Projects\ForwardSignWeb-temp\AnnuaForm.pdf'
+[2021/10/12 07:25:30] error: Command failed: soffice --headless --convert-to pdf C:\Users\anh_t\AppData\Local\Temp/1634048730314.5818 --outdir C:\Users\anh_t\AppData\Local\Temp/1634048730314.0654
+
+[2021/10/12 07:28:39] error: ENOENT: no such file or directory, open 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder\20J7189/AnnuaForm.xlxs'
+[2021/10/12 07:28:45] error: ENOENT: no such file or directory, open 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder\20J7189/AnnuaForm.xlxs'
+[2021/10/12 07:31:13] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU2Nzg0
+[2021/10/12 12:48:36] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder\[object Object]'
+[2021/10/12 12:49:08] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder\[object Object]'
+[2021/10/12 12:50:33] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder\[object Object]'

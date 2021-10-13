@@ -91,7 +91,7 @@
 
 button:hover:enabled {
   transition: all 0.3s ease 0s;
-  box-shadow: 8px 10px 15px rgba(46, 229, 157, 0.2);
+  box-shadow: 2px 2px 2px rgba(46, 229, 157, 0.2);
   transform: translateX(0.2px) translateY(-0.4px);
 }
 
@@ -326,7 +326,7 @@ button:hover:enabled {
 }
 
 .zindex-menu {
-  z-index: 10000;
+  z-index: 100;
 }
 
 .signout-header {
@@ -449,4 +449,45 @@ button:hover:enabled {
 
 .emoji-picker__wrapper {
   z-index: 1051;
+}
+
+.css-1rhbuit-multiValue {
+  background-color: antiquewhite !important;
+}
+
+.containerbox:hover .filecontent {
+  opacity: 0.3;
+}
+
+.containerbox:hover .topoverlay {
+  opacity: 1;
+}
+
+.topoverlay {
+  opacity: 1;
+  display: block;
+  width: 20%;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.topoverlay {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.modal-90w {
+  width: 80%;
+  max-width: none !important;
+}
+
+.pg-viewer-wrapper {
+  display: block !important;
 }
