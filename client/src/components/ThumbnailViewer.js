@@ -5,6 +5,7 @@ class ThumbnailViewer extends Component {
   onError(e) {
     console.log("error:" + e);
   }
+
   render() {
     return (
       <FileViewer

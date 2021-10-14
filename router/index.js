@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { authenticateUser } = require("../database/userHandler");
-const { GetPDFFile } = require("../utils/ConvertHandler");
+const { GetPDFFile, GetPDFFromImages } = require("../utils/ConvertHandler");
 const {
   GetFileNames,
   GetWorkOrders,
@@ -12,6 +12,7 @@ const router = Router();
 router.post("/login", authenticateUser);
 router.get("/getFile/:foldername/:filename", GetFile);
 router.get("/getPDFFile/:foldername/:filename", GetPDFFile);
+router.get("/getPDFFromImages/:foldername/:filename", GetPDFFromImages);
 
 router.get("/getFileNames/:foldername", GetFileNames);
 router.get("/getWorkOrders", GetWorkOrders);

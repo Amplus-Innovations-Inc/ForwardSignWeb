@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import axios from "axios";
 import Select from "react-select";
 import ThumbnailViewer from "./ThumbnailViewer";
@@ -84,21 +84,38 @@ class HomePage extends Component {
             className="filecontent"
           >
             <div style={{ width: "180px", height: "210px" }}>
-              {fileExt !== "docx" && fileExt !== "xlsx" && (
-                <ThumbnailViewer
-                  type={fileExt}
-                  filepath={`/api/getFile/${foldername}/${filename}`}
-                />
-              )}
+              {fileExt !== "docx" &&
+                fileExt !== "xlsx" &&
+                fileExt !== "pptx" &&
+                fileExt !== "jpg" &&
+                fileExt !== "jpeg" &&
+                fileExt !== "png" && (
+                  <ThumbnailViewer
+                    type={fileExt}
+                    filepath={`/api/getFile/${foldername}/${filename}`}
+                  />
+                )}
 
-              {(fileExt === "docx" || fileExt === "xlsx") && (
+              {(fileExt === "docx" ||
+                fileExt === "xlsx" ||
+                fileExt === "pptx") && (
                 <ThumbnailViewer
                   type="pdf"
                   filepath={`/api/getPDFFile/${foldername}/${filename}`}
                 />
               )}
+
+              {(fileExt === "jpg" ||
+                fileExt === "jpeg" ||
+                fileExt === "png") && (
+                <ThumbnailViewer
+                  type="pdf"
+                  filepath={`/api/getPDFFromImages/${foldername}/${filename}`}
+                />
+              )}
             </div>
           </button>
+
           <div className="topoverlay">
             <PreviewPage
               foldername={foldername}
@@ -129,10 +146,7 @@ class HomePage extends Component {
     while (count < len) {
       thumbnails.push(
         <>
-          <div
-            className="d-flex justify-content-between align-items-center"
-            key={i}
-          >
+          <div className="d-flex align-items-center" key={i}>
             {this.buildThumbnail(e.folder, e.files[count++])}
             {count < len && this.buildThumbnail(e.folder, e.files[count++])}
             {count < len && this.buildThumbnail(e.folder, e.files[count++])}
@@ -150,9 +164,16 @@ class HomePage extends Component {
     return (
       <>
         <div className="outer justify-content-center">
-          <div className="container-fluid h-100 padding-30px">
+          <div className="container-fluid padding-30px">
             <div className="inner inner-extension rounded padding-20px">
               <div>
+                <div className="text-center">
+                  <h5>
+                    <strong>
+                      Type/Select specific Work Orders and click Search
+                    </strong>
+                  </h5>
+                </div>
                 <br />
                 <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
                   <h6 style={{ width: "120px", marginBottom: "0px" }}>
@@ -171,6 +192,7 @@ class HomePage extends Component {
                       type="button"
                       className="btn btn-info"
                       onClick={this.onSearch}
+                      //disabled={this.state.selected.length === 0}
                     >
                       Search
                     </button>

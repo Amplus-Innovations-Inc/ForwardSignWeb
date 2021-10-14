@@ -46,16 +46,30 @@ export default function PreviewPage(props) {
                   <Viewer
                     fileUrl={`/api/getFile/${props.foldername}/${props.filename}`}
                     plugins={[defaultLayoutPluginInstance]}
-                    defaultScale={SpecialZoomLevel.ActualSize}
+                    defaultScale={SpecialZoomLevel.PageFit}
                   />
                 </Worker>
               )}
-              {(props.ext === "docx" || props.ext === "xlsx") && (
+              {(props.ext === "docx" ||
+                props.ext === "xlsx" ||
+                props.ext === "pptx") && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   <Viewer
                     fileUrl={`/api/getPDFFile/${props.foldername}/${props.filename}`}
                     plugins={[defaultLayoutPluginInstance]}
-                    defaultScale={SpecialZoomLevel.ActualSize}
+                    defaultScale={SpecialZoomLevel.PageFit}
+                  />
+                </Worker>
+              )}
+
+              {(props.ext === "jpg" ||
+                props.ext === "jpeg" ||
+                props.ext === "png") && (
+                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                  <Viewer
+                    fileUrl={`/api/getPDFFromImages/${props.foldername}/${props.filename}`}
+                    plugins={[defaultLayoutPluginInstance]}
+                    defaultScale={SpecialZoomLevel.PageWidth}
                   />
                 </Worker>
               )}
@@ -85,12 +99,18 @@ export default function PreviewPage(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {props.ext !== "docx" && props.ext !== "xlsx" && props.ext !== "pdf" && (
-            <h5>
-              <b>{props.ext}</b> extension doesn't support to open on Browser,
-              please click the <strong>download</strong> button
-            </h5>
-          )}
+          {props.ext !== "docx" &&
+            props.ext !== "xlsx" &&
+            props.ext !== "pdf" &&
+            props.ext !== "pptx" &&
+            props.ext !== "jpg" &&
+            props.ext !== "jpeg" &&
+            props.ext !== "png" && (
+              <h5>
+                <b>{props.ext}</b> extension doesn't support to open on Browser,
+                please click the <strong>download</strong> button
+              </h5>
+            )}
         </Modal.Body>
       </Modal>
     </>
