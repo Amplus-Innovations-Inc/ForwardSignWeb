@@ -46,7 +46,7 @@ export default function PreviewPage(props) {
                   <Viewer
                     fileUrl={`/api/getFile/${props.foldername}/${props.filename}`}
                     plugins={[defaultLayoutPluginInstance]}
-                    defaultScale={SpecialZoomLevel.PageFit}
+                    defaultScale={SpecialZoomLevel.PageWidth}
                   />
                 </Worker>
               )}
@@ -57,7 +57,7 @@ export default function PreviewPage(props) {
                   <Viewer
                     fileUrl={`/api/getPDFFile/${props.foldername}/${props.filename}`}
                     plugins={[defaultLayoutPluginInstance]}
-                    defaultScale={SpecialZoomLevel.PageFit}
+                    defaultScale={SpecialZoomLevel.PageWidth}
                   />
                 </Worker>
               )}
