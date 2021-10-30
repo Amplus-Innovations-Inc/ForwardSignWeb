@@ -4,9 +4,9 @@ switch (process.env.REACT_APP_DEV) {
       backendHost: "http://localhost:5000/",
     };
     break;
-  case "production":
+  case "prod":
     module.exports = {
-      backendHost: "https://localhost:5000/",
+      backendHost: "http://192.69.134.89:5000/",
     };
     break;
   default:
