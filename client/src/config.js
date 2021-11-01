@@ -6,7 +6,7 @@ switch (process.env.REACT_APP_DEV) {
     break;
   case "prod":
     module.exports = {
-      backendHost: "http://192.69.134.89:3001/",
+      backendHost: "http://localhost:5000/",
     };
     break;
   default:
