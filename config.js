@@ -5,5 +5,5 @@ module.exports.backendHost = {
 
 module.exports.portHost = {
   dev: 5000,
-  prod: 5000,
+  prod: 3001,
 };
