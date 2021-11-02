@@ -1,6 +1,6 @@
 module.exports.backendHost = {
   dev: "http://localhost",
-  prod: "http://192.69.134.89",
+  prod: "http://localhost",
 };
 
 module.exports.portHost = {

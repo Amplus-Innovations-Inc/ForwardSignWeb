@@ -17,7 +17,9 @@ export default function PreviewPage(props) {
   const componentRef = useRef();
 
   const onDownload = () => {
-    window.open(`/api/getFile/${props.foldername}/${props.filename}`);
+    window.open(
+      `/api/getFile/${props.foldername}/${encodeURIComponent(props.filename)}`
+    );
   };
 
   return (
@@ -44,7 +46,9 @@ export default function PreviewPage(props) {
               {props.ext === "pdf" && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   <Viewer
-                    fileUrl={`/api/getFile/${props.foldername}/${props.filename}`}
+                    fileUrl={`/api/getFile/${
+                      props.foldername
+                    }/${encodeURIComponent(props.filename)}`}
                     plugins={[defaultLayoutPluginInstance]}
                     defaultScale={SpecialZoomLevel.PageWidth}
                   />
@@ -55,7 +59,9 @@ export default function PreviewPage(props) {
                 props.ext === "pptx") && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   <Viewer
-                    fileUrl={`/api/getPDFFile/${props.foldername}/${props.filename}`}
+                    fileUrl={`/api/getPDFFile/${
+                      props.foldername
+                    }/${encodeURIComponent(props.filename)}`}
                     plugins={[defaultLayoutPluginInstance]}
                     defaultScale={SpecialZoomLevel.PageWidth}
                   />
@@ -67,7 +73,9 @@ export default function PreviewPage(props) {
                 props.ext === "png") && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   <Viewer
-                    fileUrl={`/api/getPDFFromImages/${props.foldername}/${props.filename}`}
+                    fileUrl={`/api/getPDFFromImages/${
+                      props.foldername
+                    }/${encodeURIComponent(props.filename)}`}
                     plugins={[defaultLayoutPluginInstance]}
                     defaultScale={SpecialZoomLevel.PageWidth}
                   />

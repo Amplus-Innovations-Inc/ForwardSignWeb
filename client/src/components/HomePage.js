@@ -92,7 +92,9 @@ class HomePage extends Component {
                 fileExt !== "png" && (
                   <ThumbnailViewer
                     type={fileExt}
-                    filepath={`/api/getFile/${foldername}/${filename}`}
+                    filepath={`/api/getFile/${foldername}/${encodeURIComponent(
+                      filename
+                    )}`}
                   />
                 )}
 

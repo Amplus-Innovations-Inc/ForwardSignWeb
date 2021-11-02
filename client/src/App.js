@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   isAuthorized = () => {
-    return this.props.userName !== "";
+    return this.props.userName !== "" && this.props.userName !== undefined;
   };
 
   isRender = (Page, location) =>
