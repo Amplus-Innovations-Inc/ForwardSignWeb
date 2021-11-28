@@ -5,5 +5,5 @@ module.exports.MongoDB = {
 };
 
 module.exports.SyncedTool = {
-  root: "C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder",
+  root: "/Users/dactoannguyen/Desktop/years",
 };

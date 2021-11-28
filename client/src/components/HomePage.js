@@ -10,13 +10,22 @@ class HomePage extends Component {
     super(props);
     this.state = {
       foldernames: [],
+      listYears: [],
+      listProjectCreators: [],
+      listProjectNames: [],
+      listWorkOrders: [],
+      listItems: [],
       filenames: [],
-      selected: [],
+      year: '',
+      projectCreator: '',
+      projectName: '',
+      workOrder: '',
+      item: ''
     };
   }
 
   componentDidMount() {
-    axios.get("/api/getWorkOrders").then((res) => {
+    axios.get("/api/getYear").then((res) => {
       if (res.status === 200) {
         let temp = [];
         for (const e of res.data.foldernames) {
@@ -26,30 +35,146 @@ class HomePage extends Component {
           });
         }
         this.setState({
-          foldernames: temp,
+          listYears: temp,
         });
       }
     });
   }
 
-  handleSelectChange = async (value) => {
+  handleSelectChangeYear = async (value) => {
     console.log("You've selected:", value);
-    this.setState((prevstate) => {
-      return { ...prevstate, selected: value };
-    });
+    if (value.length > 0) {
+      this.setState ({year: value[0].value});
+
+      axios.get(`/api/GetProjectCreator/${value[0].value}`).then((res) => {
+        if (res.status === 200) {
+          let temp = [];
+          for (const e of res.data.foldernames) {
+            temp.push({
+              value: e,
+              label: e,
+            });
+          }
+          this.setState({
+            listProjectCreators: temp,
+          });
+        }
+      });
+    }
+    else{
+      this.setState ({year: ''});
+    }
+  };
+  
+  handleSelectChangeProjectCreator = async (value) => {
+    console.log("You've selected:", value);
+
+    if (value.length > 0) {
+      this.setState ({projectCreator: value[0].value});
+
+      axios.get(`/api/GetProjectName/${this.state.year}/${value[0].value}`).then((res) => {
+        if (res.status === 200) {
+          let temp = [];
+          for (const e of res.data.foldernames) {
+            temp.push({
+              value: e,
+              label: e,
+            });
+          }
+          this.setState({
+            listProjectNames: temp,
+          });
+        }
+      });
+    }
+    else{
+      this.setState ({projectCreator: ''});
+    }
+  };
+
+  handleSelectChangeProjectName = async (value) => {
+    console.log("You've selected:", value);
+    if (value.length > 0) {
+      this.setState ({projectName: value[0].value});
+      axios.get(`/api/GetWorkOrder/${this.state.year}/${this.state.projectCreator}/${value[0].value}`).then((res) => {
+        if (res.status === 200) {
+          let temp = [];
+          for (const e of res.data.foldernames) {
+            temp.push({
+              value: e,
+              label: e,
+            });
+          }
+          this.setState({
+            listWorkOrders: temp,
+          });
+        }
+      });
+    }
+    else {
+      this.setState ({projectName: ''});
+    }
+    
+  };
+
+  handleSelectChangeWorkOrder = async (value) => {
+    console.log("You've selected:", value);
+    if (value.length > 0) {
+      this.setState ({workOrder: value[0].value});
+
+      axios.get(`/api/GetItem/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${value[0].value}`).then((res) => {
+        if (res.status === 200) {
+          let temp = [];
+          for (const e of res.data.foldernames) {
+            temp.push({
+              value: e,
+              label: e,
+            });
+          }
+          this.setState({
+            listItems: temp,
+          });
+        }
+      });
+    }
+    else{
+      this.setState ({workOrder: ''});
+    }
+  };
+
+  handleSelectChangeItem = async (value) => {
+    console.log("You've selected:", value);
+    if (value.length > 0){
+      this.setState ({item: value[0].value});
+    }
+    else{
+      this.setState ({item: ''});
+    }
   };
 
   onSearch = async () => {
     const temp = [];
-    for (const e of this.state.selected) {
-      const res = await axios.get(`/api/getFileNames/${e.label}`);
-      if (res.status === 200) {
-        temp.push({
-          folder: e.label,
-          files: res.data.filenames,
-        });
+    //for (const e of this.state.item) {
+      if (this.state.item === ''){
+        const res = await axios.get(`/api/getFileNames_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}`);
+        if (res.status === 200) {
+          temp.push({
+            folder: this.state.workOrder,
+            files: res.data.filenames,
+          });
+        }
       }
-    }
+      else {
+        const res = await axios.get(`/api/getFileNames_item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}`);
+        if (res.status === 200) {
+          temp.push({
+            folder: this.state.item,
+            files: res.data.filenames,
+          });
+        }
+      }
+      
+    //}
 
     this.setState({
       filenames: temp,
@@ -68,6 +193,13 @@ class HomePage extends Component {
   };
 
   buildThumbnail = (foldername, filename) => {
+    const temp = {
+      year: this.state.year,
+      pc: this.state.projectCreator,
+      pn: this.state.projectName,
+      wo: this.state.workOrder,
+      item: this.state.item
+    };
     const fileExt = filename
       .substr(filename.lastIndexOf(".") + 1)
       .toLowerCase();
@@ -90,9 +222,17 @@ class HomePage extends Component {
                 fileExt !== "jpg" &&
                 fileExt !== "jpeg" &&
                 fileExt !== "png" && (
+                  this.state.item === '' ?
                   <ThumbnailViewer
                     type={fileExt}
-                    filepath={`/api/getFile/${foldername}/${encodeURIComponent(
+                    filepath={`/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(
+                      filename
+                    )}`}
+                  />
+                  :
+                  <ThumbnailViewer
+                    type={fileExt}
+                    filepath={`/api/getFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(
                       filename
                     )}`}
                   />
@@ -101,26 +241,38 @@ class HomePage extends Component {
               {(fileExt === "docx" ||
                 fileExt === "xlsx" ||
                 fileExt === "pptx") && (
-                <ThumbnailViewer
-                  type="pdf"
-                  filepath={`/api/getPDFFile/${foldername}/${filename}`}
-                />
+                  this.state.item === '' ?
+                  <ThumbnailViewer
+                    type="pdf"
+                    filepath={`/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
+                  />
+                  :
+                  <ThumbnailViewer
+                    type="pdf"
+                    filepath={`/api/getPDFFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${filename}`}
+                  />
               )}
 
               {(fileExt === "jpg" ||
                 fileExt === "jpeg" ||
                 fileExt === "png") && (
-                <ThumbnailViewer
-                  type="pdf"
-                  filepath={`/api/getPDFFromImages/${foldername}/${filename}`}
-                />
+                  this.state.item === '' ?
+                  <ThumbnailViewer
+                    type="pdf"
+                    filepath={`/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
+                  />
+                  :
+                  <ThumbnailViewer
+                    type="pdf"
+                    filepath={`/api/getPDFFromImages_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${filename}`}
+                  />
               )}
             </div>
           </button>
 
           <div className="topoverlay">
             <PreviewPage
-              foldername={foldername}
+              foldername={temp}
               filename={filename}
               ext={fileExt}
             />
@@ -162,7 +314,7 @@ class HomePage extends Component {
   };
 
   render() {
-    const { foldernames } = this.state;
+    const { foldernames, listYears, listProjectCreators, listProjectNames, listWorkOrders, listItems } = this.state;
     return (
       <>
         <div className="outer justify-content-center">
@@ -179,65 +331,80 @@ class HomePage extends Component {
                 <br />
                 <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
                   <h6 style={{ width: "120px", marginBottom: "0px" }}>
+                    <b>Year</b>
+                  </h6>
+                  <div style={{ minWidth: "600px" }}>
+                    <Select
+                      placeholder="Select years"
+                      options={listYears}
+                      isMulti={true}
+                      onChange={this.handleSelectChangeYear}
+                    />
+                  </div>
+                </div>
+
+
+                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
+                    <b>Project Creator</b>
+                  </h6>
+                  <div style={{ minWidth: "600px" }}>
+                    <Select
+                      placeholder="Select project creator"
+                      options={listProjectCreators}
+                      isMulti={true}
+                      onChange={this.handleSelectChangeProjectCreator}
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
+                    <b>Project Name</b>
+                  </h6>
+                  <div style={{ minWidth: "600px" }}>
+                    <Select
+                      placeholder="Select project name"
+                      options={listProjectNames}
+                      isMulti={true}
+                      onChange={this.handleSelectChangeProjectName}
+                    />
+                  </div>
+                </div>
+                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
                     <b>Work Order</b>
                   </h6>
                   <div style={{ minWidth: "600px" }}>
                     <Select
-                      placeholder="Select your work order(s)"
-                      options={foldernames}
+                      placeholder="Select your work order"
+                      options={listWorkOrders}
                       isMulti={true}
-                      onChange={this.handleSelectChange}
+                      onChange={this.handleSelectChangeWorkOrder}
                     />
                   </div>
-                  <div style={{ paddingLeft: "20px" }}>
-                    <button
-                      type="button"
-                      className="btn btn-info"
-                      onClick={this.onSearch}
-                      //disabled={this.state.selected.length === 0}
-                    >
+                </div>
+                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
+                    <b>Item</b>
+                  </h6>
+                  <div style={{ minWidth: "600px" }}>
+                    <Select
+                      placeholder="Select your item"
+                      options={listItems}
+                      isMulti={true}
+                      onChange={this.handleSelectChangeItem}
+                    />
+                  </div>
+                </div>
+                  <div style={{ paddingRight: "20px" }}>
+                    <button type="button" className="btn btn-info" onClick={this.onSearch}>
                       Search
                     </button>
                   </div>
                 </div>
-              </div>
               <br />
               <br />
               <br />
-              <div className="d-flex justify-content-between align-items-center">
-                {/*
-                <div className="col-3 text-center">
-                  <div className="containerbox">
-                    <button
-                      style={{
-                        borderWidth: "1px",
-                        borderColor: "grey",
-                      }}
-                      className="filecontent"
-                    >
-                      <div style={{ width: "180px", height: "180px" }}>
-                        <ThumbnailViewer
-                          type="pdf"
-                          filepath="/api/getPDFFile/20J7189/AnnuaForm.xlsx"
-                        />
-                      </div>
-                    </button>
-                    <div className="topoverlay">
-                      <PreviewPage />
-                    </div>
-                  </div>
-                  <div>
-                    <small
-                      style={{ wordWrap: "break-word" }}
-                      title="AnnuaFormgdfgdf_df_gdfgdf_df_gdfgd_gdf_gdgdfgdf.xlsx"
-                    >
-                      {this.tailorFileName(
-                        "AnnuaFormgdfgdf_df_gdfgdf_df_gdfgd_gdf_gdgdfgdf.xlsx"
-                      )}
-                    </small>
-                  </div>
-                      </div> */}
-              </div>
               {this.state.filenames.map((e, i) => {
                 return this.buildThumbnails(e, i);
               })}
