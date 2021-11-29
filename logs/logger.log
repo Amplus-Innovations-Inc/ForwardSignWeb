@@ -55,3 +55,104 @@ operable program or batch file.
 [2021/11/25 16:51:33] error: ENOENT: no such file or directory, scandir '/Users/dactoannguyen/Desktop/years/2021/projectName/'
 [2021/11/26 18:01:29] error: ENOENT: no such file or directory, scandir '/Users/dactoannguyen/Desktop/years/2021/projectCreator/projectName/2021/projectCreator/projectName/workorder1'
 [2021/11/26 18:05:36] error: ENOENT: no such file or directory, scandir '/Users/dactoannguyen/Desktop/years/2021/projectCreator/projectName/2021'
+[2021/11/28 20:24:37] error: ENOENT: no such file or directory, scandir '/Users/dactoannguyen/Desktop/years\'
+[2021/11/29 13:32:52] error: Unable to write page
+[2021/11/29 13:33:07] error: Unable to write page
+[2021/11/29 13:38:30] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638211110463.1667 --outdir C:\Users\admin\AppData\Local\Temp/1638211110465.8909
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 13:38:30] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638211110468.0854 --outdir C:\Users\admin\AppData\Local\Temp/1638211110469.0505
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 16:33:15] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638221595614.0994 --outdir C:\Users\admin\AppData\Local\Temp/1638221595615.8862
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 16:33:15] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638221595690.3945 --outdir C:\Users\admin\AppData\Local\Temp/1638221595691.4543
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 16:52:58] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638222778432.1636 --outdir C:\Users\admin\AppData\Local\Temp/1638222778433.0298
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 16:52:58] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638222778435.3618 --outdir C:\Users\admin\AppData\Local\Temp/1638222778436.1672
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 17:18:43] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638224323019.5493 --outdir C:\Users\admin\AppData\Local\Temp/1638224323020.307
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 17:18:43] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638224323022.0837 --outdir C:\Users\admin\AppData\Local\Temp/1638224323023.747
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:07:21] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638227241413.7957 --outdir C:\Users\admin\AppData\Local\Temp/1638227241414.644
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:07:21] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638227241416.2078 --outdir C:\Users\admin\AppData\Local\Temp/1638227241417.955
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:08:20] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638227300143.318 --outdir C:\Users\admin\AppData\Local\Temp/1638227300145.6099
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:08:20] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638227300192.2935 --outdir C:\Users\admin\AppData\Local\Temp/1638227300193.153
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:19:16] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638227944076.1301 --outdir C:\Users\admin\AppData\Local\Temp/1638227944079.154
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:22:14] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228134749.1956 --outdir C:\Users\admin\AppData\Local\Temp/1638228134752.598
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:22:15] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228134912.1736 --outdir C:\Users\admin\AppData\Local\Temp/1638228134914.8262
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:25:43] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228342877.0332 --outdir C:\Users\admin\AppData\Local\Temp/1638228342879.799
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:25:43] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228342948.5144 --outdir C:\Users\admin\AppData\Local\Temp/1638228342950.0957
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:26:23] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228383247.4893 --outdir C:\Users\admin\AppData\Local\Temp/1638228383248.2393
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:26:23] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228383243.4797 --outdir C:\Users\admin\AppData\Local\Temp/1638228383245.7817
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:28:49] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228528860.6519 --outdir C:\Users\admin\AppData\Local\Temp/1638228528861.504
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:28:49] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228528863.066 --outdir C:\Users\admin\AppData\Local\Temp/1638228528864.4302
+'soffice' is not recognized as an internal or external command,
+operable program or batch file.
+
+[2021/11/29 18:35:55] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638228949816.3296 --outdir C:\Users\admin\AppData\Local\Temp/1638228949817.3804
+
+[2021/11/29 18:41:45] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229292892.9956 --outdir C:\Users\admin\AppData\Local\Temp/1638229292893.955
+
+[2021/11/29 18:43:54] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229421615.3857 --outdir C:\Users\admin\AppData\Local\Temp/1638229421616.1404
+
+[2021/11/29 18:44:50] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229476896.3052 --outdir C:\Users\admin\AppData\Local\Temp/1638229476898.1274
+
+[2021/11/29 18:44:53] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229490777.0774 --outdir C:\Users\admin\AppData\Local\Temp/1638229490778.406
+
+[2021/11/29 18:45:10] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229498558.5947 --outdir C:\Users\admin\AppData\Local\Temp/1638229498559.8982
+
+[2021/11/29 18:46:06] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229553403.0325 --outdir C:\Users\admin\AppData\Local\Temp/1638229553406.7817
+

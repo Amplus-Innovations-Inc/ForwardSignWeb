@@ -5,5 +5,5 @@ module.exports.MongoDB = {
 };
 
 module.exports.SyncedTool = {
-  root: "/Users/dactoannguyen/Desktop/years",
+  root: "/Users/admin/Desktop/year",
 };

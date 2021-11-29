@@ -154,6 +154,7 @@ class HomePage extends Component {
 
   onSearch = async () => {
     const temp = [];
+    
     //for (const e of this.state.item) {
       if (this.state.item === ''){
         const res = await axios.get(`/api/getFileNames_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}`);
@@ -192,8 +193,32 @@ class HomePage extends Component {
     return filename;
   };
 
+  checkItemURL_getFile = (item, filename) => {
+    //let fileURL = '';
+    if (item === ''){
+      return `/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
+  }
+
+  checkItemURL_getPDFFile = (item, filename) => {
+    //let fileURL = '';
+    if (item === ''){
+      return `/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getPDFFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
+  }
+
+  checkItemURL_getPDFFromImages = (item, filename) => {
+    //let fileURL = '';
+    if (item === ''){
+      return `/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getPDFFromImages_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
+  }
+
   buildThumbnail = (foldername, filename) => {
-    const temp = {
+    const listFolders = {
       year: this.state.year,
       pc: this.state.projectCreator,
       pn: this.state.projectName,
@@ -221,50 +246,43 @@ class HomePage extends Component {
                 fileExt !== "pptx" &&
                 fileExt !== "jpg" &&
                 fileExt !== "jpeg" &&
-                fileExt !== "png" && (
-                  this.state.item === '' ?
+                fileExt !== "png" && 
+                this.state.year !== '' && 
+                this.state.projectCreator !== '' &&
+                this.state.projectName !== '' &&
+                this.state.workOrder !== '' && (
                   <ThumbnailViewer
                     type={fileExt}
-                    filepath={`/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(
-                      filename
-                    )}`}
-                  />
-                  :
-                  <ThumbnailViewer
-                    type={fileExt}
-                    filepath={`/api/getFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(
-                      filename
-                    )}`}
+                    //filepath={`/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`}
+                    filepath = {this.checkItemURL_getFile(this.state.item, filename)}
                   />
                 )}
 
               {(fileExt === "docx" ||
                 fileExt === "xlsx" ||
-                fileExt === "pptx") && (
-                  this.state.item === '' ?
+                fileExt === "pptx") && 
+                this.state.year !== '' && 
+                this.state.projectCreator !== '' &&
+                this.state.projectName !== '' &&
+                this.state.workOrder !== '' && (
                   <ThumbnailViewer
                     type="pdf"
-                    filepath={`/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
-                  />
-                  :
-                  <ThumbnailViewer
-                    type="pdf"
-                    filepath={`/api/getPDFFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${filename}`}
+                    //filepath={`/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
+                    filepath = {this.checkItemURL_getPDFFile(this.state.item, filename)}
                   />
               )}
 
               {(fileExt === "jpg" ||
                 fileExt === "jpeg" ||
-                fileExt === "png") && (
-                  this.state.item === '' ?
+                fileExt === "png") && 
+                this.state.year !== '' && 
+                this.state.projectCreator !== '' &&
+                this.state.projectName !== '' &&
+                this.state.workOrder !== '' && (
                   <ThumbnailViewer
                     type="pdf"
-                    filepath={`/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
-                  />
-                  :
-                  <ThumbnailViewer
-                    type="pdf"
-                    filepath={`/api/getPDFFromImages_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${filename}`}
+                    //filepath={`/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
+                    filepath = {this.checkItemURL_getPDFFromImages(this.state.item, filename)}
                   />
               )}
             </div>
@@ -272,7 +290,7 @@ class HomePage extends Component {
 
           <div className="topoverlay">
             <PreviewPage
-              foldername={temp}
+              foldername={listFolders}
               filename={filename}
               ext={fileExt}
             />
@@ -396,7 +414,7 @@ class HomePage extends Component {
                     />
                   </div>
                 </div>
-                  <div style={{ paddingRight: "20px" }}>
+                  <div style={{ paddingRight: "20px", textAlign: "center", paddingTop: "20px" }}>
                     <button type="button" className="btn btn-info" onClick={this.onSearch}>
                       Search
                     </button>

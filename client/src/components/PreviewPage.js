@@ -24,12 +24,35 @@ export default function PreviewPage(props) {
 
   const onDownload = () => {
     if (item === ''){
-      window.open(`/api/getFile/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`);
+      window.open(`/api/getFile_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`);
     }
     else{
-      window.open(`/api/getFile/${year}/${pc}/${pn}/${wo}/${item}/${encodeURIComponent(props.filename)}`);
+      window.open(`/api/getFile_Item/${year}/${pc}/${pn}/${wo}/${item}/${encodeURIComponent(props.filename)}`);
     }
   };
+
+  const checkItemURL_getFile = (item, filename) => {
+    if (item === ''){
+      return `/api/getFile_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getFile_Item/${year}/${pc}/${pn}/${wo}/${item}/${encodeURIComponent(filename)}`;
+  }
+
+  const checkItemURL_getPDFFile = (item, filename) => {
+    //let fileURL = '';
+    if (item === ''){
+      return `/api/getPDFFile_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getPDFFile_Item/${year}/${pc}/${pn}/${wo}/${item}/${encodeURIComponent(filename)}`;
+  }
+
+  const checkItemURL_getPDFFromImages = (item, filename) => {
+    //let fileURL = '';
+    if (item === ''){
+      return `/api/getPDFFromImages_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(filename)}`;
+    }
+    return `/api/getPDFFromImages_Item/${year}/${pc}/${pn}/${wo}/${item}/${encodeURIComponent(filename)}`;
+  }
 
   return (
     <>
@@ -55,7 +78,8 @@ export default function PreviewPage(props) {
               {props.ext === "pdf" && (
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                       <Viewer
-                        fileUrl={`/api/getFile/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        //fileUrl={`/api/getFile_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        fileUrl = {checkItemURL_getFile(item, props.filename)}
                         plugins={[defaultLayoutPluginInstance]}
                         defaultScale={SpecialZoomLevel.PageWidth}
                       />
@@ -67,7 +91,8 @@ export default function PreviewPage(props) {
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   
                       <Viewer
-                        fileUrl={`/api/getPDFFile/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        //fileUrl={`/api/getPDFFile_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        fileUrl = {checkItemURL_getPDFFile(item, props.filename)}
                         plugins={[defaultLayoutPluginInstance]}
                         defaultScale={SpecialZoomLevel.PageWidth}
                       />
@@ -81,7 +106,8 @@ export default function PreviewPage(props) {
                 <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                   
                       <Viewer
-                        fileUrl={`/api/getPDFFromImages/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        //fileUrl={`/api/getPDFFromImages_WO/${year}/${pc}/${pn}/${wo}/${encodeURIComponent(props.filename)}`}
+                        fileUrl = {checkItemURL_getPDFFromImages(item, props.filename)}
                         plugins={[defaultLayoutPluginInstance]}
                         defaultScale={SpecialZoomLevel.PageWidth}
                       />

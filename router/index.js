@@ -23,7 +23,7 @@ router.get("/getPDFFile_WO/:year/:projectCreator/:projectName/:workOrder/:filena
 router.get("/getPDFFile_Item/:year/:projectCreator/:projectName/:workOrder/:item/:filename", GetPDFFile_Item);
 
 router.get("/getPDFFromImages_WO/:year/:projectCreator/:projectName/:workOrder/:filename", GetPDFFromImages_WO);
-router.get("/getPDFFromImages_Item/:year/:projectCreator/:projectName/:workOrder/:/item/:filename", GetPDFFromImages_Item);
+router.get("/getPDFFromImages_Item/:year/:projectCreator/:projectName/:workOrder/:item/:filename", GetPDFFromImages_Item);
 
 router.get("/getFileNames_WO/:year/:projectCreator/:projectName/:workOrder", GetFileNames_WO);
 router.get("/getFileNames_Item/:year/:projectCreator/:projectName/:workOrder/:item", GetFileNames_Item);

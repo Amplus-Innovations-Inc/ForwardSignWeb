@@ -67,7 +67,6 @@ module.exports.GetPDFFile_Item = async (req, res, next) => {
     const fileContent = fs.readFileSync(file);
     var pdfBuffer = await toPdf(fileContent);
     fs.writeFileSync(outputPath, pdfBuffer);
-    //res.download(outputPath);
     res.download(outputPath, (err) => {
       if (err) {
         console.log(err);
