@@ -225,10 +225,17 @@ class HomePage extends Component {
       wo: this.state.workOrder,
       item: this.state.item
     };
-    const fileExt = filename
+
+    var fileExt;
+    console.log("fileext=" + fileExt);
+    if (filename.lastIndexOf(".") >= 0){
+      fileExt = filename
       .substr(filename.lastIndexOf(".") + 1)
       .toLowerCase();
-    console.log("fileext=" + fileExt);
+    }
+    else{
+      return '';
+    }
 
     return (
       <div className="col-3 text-center">
@@ -342,7 +349,7 @@ class HomePage extends Component {
                 <div className="text-center">
                   <h5>
                     <strong>
-                      Type/Select specific Work Orders and click Search
+                      Type/Select 1 Option at the time
                     </strong>
                   </h5>
                 </div>
