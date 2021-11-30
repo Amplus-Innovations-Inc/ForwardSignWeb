@@ -491,3 +491,7 @@ button:hover:enabled {
 .pg-viewer-wrapper {
   display: block !important;
 }
+
+.pdf-canvas canvas { 
+  height: 200px 
+}

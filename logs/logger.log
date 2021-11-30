@@ -156,3 +156,13 @@ operable program or batch file.
 
 [2021/11/29 18:46:06] error: Command failed: soffice --headless --convert-to pdf C:\Users\admin\AppData\Local\Temp/1638229553403.0325 --outdir C:\Users\admin\AppData\Local\Temp/1638229553406.7817
 
+[2021/11/29 23:08:56] error: Unable to write page
+[2021/11/29 23:25:54] error: fs is not defined
+[2021/11/29 23:26:02] error: fs is not defined
+[2021/11/29 23:26:24] error: fs is not defined
+[2021/11/29 23:27:16] error: fs is not defined
+[2021/11/29 23:30:26] error: fs is not defined
+[2021/11/29 23:35:46] error: Command failed: soffice --headless --convert-to pdf:writer_pdf_Export C:\Users\admin\AppData\Local\Temp/1638246944977.5085 --outdir C:\Users\admin\AppData\Local\Temp/1638246944978.8716
+
+[2021/11/30 00:23:41] error: Command failed: soffice --headless --convert-to pdf:writer_pdf_Export C:\Users\admin\AppData\Local\Temp/1638249820169.9685 --outdir C:\Users\admin\AppData\Local\Temp/1638249820171.7864
+

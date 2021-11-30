@@ -117,7 +117,11 @@ module.exports.GetWorkOrder = async (req, res, next) => {
     const folder = path.format({
       dir: SyncedTool.root + '/' + year + '/' + projectCreator + '/' + projectName,
     });
-    const foldernames = fs.readdirSync(folder);
+
+    const foldernames = fs.readdirSync(folder, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+    
     return res.json({ foldernames: foldernames });
   } catch (e) {
     console.log(e);
@@ -132,7 +136,12 @@ module.exports.GetItem = async (req, res, next) => {
     const folder = path.format({
       dir: SyncedTool.root + '/' + year + '/' + projectCreator + '/' + projectName + '/' + workOrder,
     });
-    const foldernames = fs.readdirSync(folder);
+    //const foldernames = fs.readdirSync(folder);
+
+    const foldernames = fs.readdirSync(folder, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
+
     return res.json({ foldernames: foldernames });
   } catch (e) {
     console.log(e);

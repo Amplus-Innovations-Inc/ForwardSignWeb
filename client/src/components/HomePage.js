@@ -145,10 +145,28 @@ class HomePage extends Component {
   handleSelectChangeItem = async (value) => {
     console.log("You've selected:", value);
     if (value.length > 0){
-      this.setState ({item: value[0].value});
+      const res = await axios.get(`/api/getFileNames_item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${value[0].value}`);
+      if (res.status === 200) {
+        const temp = [];
+        temp.push({
+          folder: this.state.item,
+          files: res.data.filenames,
+        });
+        this.setState ({item: value[0].value, filenames: temp});
+      }
+      
     }
     else{
-      this.setState ({item: ''});
+      const res = await axios.get(`/api/getFileNames_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}`);
+      if (res.status === 200) {
+        const temp = [];
+        temp.push({
+          folder: this.state.workOrder,
+          files: res.data.filenames,
+        });
+        this.setState ({item: '', filenames: temp});
+      }
+      
     }
   };
 
