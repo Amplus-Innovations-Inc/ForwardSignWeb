@@ -166,3 +166,10 @@ operable program or batch file.
 
 [2021/11/30 00:23:41] error: Command failed: soffice --headless --convert-to pdf:writer_pdf_Export C:\Users\admin\AppData\Local\Temp/1638249820169.9685 --outdir C:\Users\admin\AppData\Local\Temp/1638249820171.7864
 
+[2021/11/30 16:26:07] error: Command failed: soffice --headless --convert-to pdf:writer_pdf_Export C:\Users\admin\AppData\Local\Temp/1638307562632.0984 --outdir C:\Users\admin\AppData\Local\Temp/1638307562633.9934
+
+[2021/11/30 16:35:44] error: Command failed: soffice --headless --convert-to pdf:writer_pdf_Export C:\Users\admin\AppData\Local\Temp/1638308136592.043 --outdir C:\Users\admin\AppData\Local\Temp/1638308136593.753
+
+[2021/11/30 16:38:56] error: Unable to write page
+[2021/11/30 16:44:01] error: ENOENT: no such file or directory, scandir '/Users/admin/Desktop/year/2021/Wilson/sheppard/WO2021\Item1'
+[2021/11/30 16:55:23] error: Unable to write page

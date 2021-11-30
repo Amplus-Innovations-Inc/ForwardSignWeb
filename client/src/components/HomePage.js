@@ -62,7 +62,12 @@ class HomePage extends Component {
       });
     }
     else{
-      this.setState ({year: ''});
+      const temp = [];
+        temp.push({
+          folder: '',
+          files: [],
+        });
+      this.setState ({year: '', filenames: temp});
     }
   };
   
@@ -88,7 +93,12 @@ class HomePage extends Component {
       });
     }
     else{
-      this.setState ({projectCreator: ''});
+      const temp = [];
+        temp.push({
+          folder: '',
+          files: [],
+        });
+      this.setState ({projectCreator: '', filenames: temp});
     }
   };
 
@@ -112,9 +122,13 @@ class HomePage extends Component {
       });
     }
     else {
-      this.setState ({projectName: ''});
+      const temp = [];
+        temp.push({
+          folder: '',
+          files: [],
+        });
+      this.setState ({projectName: '', filenames: temp});
     }
-    
   };
 
   handleSelectChangeWorkOrder = async (value) => {
@@ -138,7 +152,12 @@ class HomePage extends Component {
       });
     }
     else{
-      this.setState ({workOrder: ''});
+        const temp = [];
+        temp.push({
+          folder: '',
+          files: [],
+        });
+        this.setState ({workOrder: '', filenames: temp});
     }
   };
 
