@@ -1,26 +1,26 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import Select from "react-select";
 import ThumbnailViewer from "./ThumbnailViewer";
 import PreviewPage from "./PreviewPage";
 import "file-viewer";
+import FolderImg from "../static/images/folder.png";
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      foldernames: [],
       listYears: [],
       listProjectCreators: [],
       listProjectNames: [],
       listWorkOrders: [],
-      listItems: [],
+
       filenames: [],
-      year: '',
-      projectCreator: '',
-      projectName: '',
-      workOrder: '',
-      item: ''
+      year: null,
+      projectCreator: null,
+      projectName: null,
+      workOrder: null,
+      item: null,
     };
   }
 
@@ -42,42 +42,30 @@ class HomePage extends Component {
   }
 
   handleSelectChangeYear = async (value) => {
-    console.log("You've selected:", value);
-    if (value.length > 0) {
-      this.setState ({year: value[0].value});
-
-      axios.get(`/api/GetProjectCreator/${value[0].value}`).then((res) => {
-        if (res.status === 200) {
-          let temp = [];
-          for (const e of res.data.foldernames) {
-            temp.push({
-              value: e,
-              label: e,
-            });
-          }
-          this.setState({
-            listProjectCreators: temp,
+    axios.get(`/api/GetProjectCreator/${value.value}`).then((res) => {
+      if (res.status === 200) {
+        let temp = [];
+        for (const e of res.data.foldernames) {
+          temp.push({
+            value: e,
+            label: e,
           });
         }
-      });
-    }
-    else{
-      const temp = [];
-        temp.push({
-          folder: '',
-          files: [],
+        this.setState({
+          listProjectCreators: temp,
+          year: value,
+          projectCreator: null,
+          projectName: null,
+          workOrder: null,
         });
-      this.setState ({year: '', filenames: temp});
-    }
+      }
+    });
   };
-  
+
   handleSelectChangeProjectCreator = async (value) => {
-    console.log("You've selected:", value);
-
-    if (value.length > 0) {
-      this.setState ({projectCreator: value[0].value});
-
-      axios.get(`/api/GetProjectName/${this.state.year}/${value[0].value}`).then((res) => {
+    axios
+      .get(`/api/GetProjectName/${this.state.year.value}/${value.value}`)
+      .then((res) => {
         if (res.status === 200) {
           let temp = [];
           for (const e of res.data.foldernames) {
@@ -88,25 +76,20 @@ class HomePage extends Component {
           }
           this.setState({
             listProjectNames: temp,
+            projectCreator: value,
+            projectName: null,
+            workOrder: null,
           });
         }
       });
-    }
-    else{
-      const temp = [];
-        temp.push({
-          folder: '',
-          files: [],
-        });
-      this.setState ({projectCreator: '', filenames: temp});
-    }
   };
 
   handleSelectChangeProjectName = async (value) => {
-    console.log("You've selected:", value);
-    if (value.length > 0) {
-      this.setState ({projectName: value[0].value});
-      axios.get(`/api/GetWorkOrder/${this.state.year}/${this.state.projectCreator}/${value[0].value}`).then((res) => {
+    axios
+      .get(
+        `/api/GetWorkOrder/${this.state.year.value}/${this.state.projectCreator.value}/${value.value}`
+      )
+      .then((res) => {
         if (res.status === 200) {
           let temp = [];
           for (const e of res.data.foldernames) {
@@ -117,106 +100,55 @@ class HomePage extends Component {
           }
           this.setState({
             listWorkOrders: temp,
+            projectName: value,
+            workOrder: null,
           });
         }
       });
-    }
-    else {
-      const temp = [];
-        temp.push({
-          folder: '',
-          files: [],
-        });
-      this.setState ({projectName: '', filenames: temp});
-    }
   };
 
   handleSelectChangeWorkOrder = async (value) => {
-    console.log("You've selected:", value);
-    if (value.length > 0) {
-      this.setState ({workOrder: value[0].value});
-
-      axios.get(`/api/GetItem/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${value[0].value}`).then((res) => {
-        if (res.status === 200) {
-          let temp = [];
-          for (const e of res.data.foldernames) {
-            temp.push({
-              value: e,
-              label: e,
-            });
-          }
-          this.setState({
-            listItems: temp,
-          });
-        }
-      });
-    }
-    else{
-        const temp = [];
-        temp.push({
-          folder: '',
-          files: [],
-        });
-        this.setState ({workOrder: '', filenames: temp});
-    }
-  };
-
-  handleSelectChangeItem = async (value) => {
-    console.log("You've selected:", value);
-    if (value.length > 0){
-      const res = await axios.get(`/api/getFileNames_item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${value[0].value}`);
-      if (res.status === 200) {
-        const temp = [];
-        temp.push({
-          folder: this.state.item,
-          files: res.data.filenames,
-        });
-        this.setState ({item: value[0].value, filenames: temp});
-      }
-      
-    }
-    else{
-      const res = await axios.get(`/api/getFileNames_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}`);
-      if (res.status === 200) {
-        const temp = [];
-        temp.push({
-          folder: this.state.workOrder,
-          files: res.data.filenames,
-        });
-        this.setState ({item: '', filenames: temp});
-      }
-      
-    }
+    this.setState({
+      workOrder: value,
+    });
   };
 
   onSearch = async () => {
     const temp = [];
-    
-    //for (const e of this.state.item) {
-      if (this.state.item === ''){
-        const res = await axios.get(`/api/getFileNames_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}`);
-        if (res.status === 200) {
-          temp.push({
-            folder: this.state.workOrder,
-            files: res.data.filenames,
-          });
-        }
+    for (const e of this.state.workOrder) {
+      const res = await axios.get(
+        `/api/getFileNames_WO/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${e.label}`
+      );
+      if (res.status === 200) {
+        temp.push({
+          folder: e.label,
+          files: res.data.filenames,
+        });
       }
-      else {
-        const res = await axios.get(`/api/getFileNames_item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}`);
-        if (res.status === 200) {
-          temp.push({
-            folder: this.state.item,
-            files: res.data.filenames,
-          });
-        }
-      }
-      
-    //}
+    }
 
     this.setState({
       filenames: temp,
     });
+  };
+
+  onOpenFolder = (wo, itemName) => {
+    axios
+      .get(
+        `/api/getFileNames_Item/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${wo}/${itemName}`
+      )
+      .then((res) => {
+        let temp = this.state.filenames;
+        for (let element of temp) {
+          if (element.folder === wo) {
+            element.folder = element.folder + "/" + itemName;
+            element.files = res.data.filenames;
+          }
+        }
+        this.setState({
+          filenames: temp,
+        });
+      });
   };
 
   tailorFileName = (filename) => {
@@ -230,48 +162,17 @@ class HomePage extends Component {
     return filename;
   };
 
-  checkItemURL_getFile = (item, filename) => {
-    //let fileURL = '';
-    if (item === ''){
-      return `/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
-    }
-    return `/api/getFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
-  }
-
-  checkItemURL_getPDFFile = (item, filename) => {
-    //let fileURL = '';
-    if (item === ''){
-      return `/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
-    }
-    return `/api/getPDFFile_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
-  }
-
-  checkItemURL_getPDFFromImages = (item, filename) => {
-    //let fileURL = '';
-    if (item === ''){
-      return `/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`;
-    }
-    return `/api/getPDFFromImages_Item/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${this.state.item}/${encodeURIComponent(filename)}`;
-  }
-
   buildThumbnail = (foldername, filename) => {
-    const listFolders = {
-      year: this.state.year,
-      pc: this.state.projectCreator,
-      pn: this.state.projectName,
-      wo: this.state.workOrder,
-      item: this.state.item
+    const parentFolder = {
+      year: this.state.year.value,
+      pc: this.state.projectCreator.value,
+      pn: this.state.projectName.value,
+      wo: foldername,
     };
 
-    var fileExt;
-    console.log("fileext=" + fileExt);
-    if (filename.lastIndexOf(".") >= 0){
-      fileExt = filename
-      .substr(filename.lastIndexOf(".") + 1)
-      .toLowerCase();
-    }
-    else{
-      return '';
+    var fileExt = "";
+    if (filename.lastIndexOf(".") >= 0) {
+      fileExt = filename.substr(filename.lastIndexOf(".") + 1).toLowerCase();
     }
 
     return (
@@ -290,53 +191,67 @@ class HomePage extends Component {
                 fileExt !== "pptx" &&
                 fileExt !== "jpg" &&
                 fileExt !== "jpeg" &&
-                fileExt !== "png" && 
-                this.state.year !== '' && 
-                this.state.projectCreator !== '' &&
-                this.state.projectName !== '' &&
-                this.state.workOrder !== '' && (
+                fileExt !== "png" &&
+                fileExt !== "" && (
                   <ThumbnailViewer
                     type={fileExt}
-                    //filepath={`/api/getFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${encodeURIComponent(filename)}`}
-                    filepath = {this.checkItemURL_getFile(this.state.item, filename)}
+                    filepath={`/api/${
+                      foldername.lastIndexOf("/") >= 0
+                        ? "GetFile_Item"
+                        : "GetFile_WO"
+                    }/${this.state.year.value}/${
+                      this.state.projectCreator.value
+                    }/${
+                      this.state.projectName.value
+                    }/${foldername}/${encodeURIComponent(filename)}`}
                   />
                 )}
 
               {(fileExt === "docx" ||
                 fileExt === "xlsx" ||
-                fileExt === "pptx") && 
-                this.state.year !== '' && 
-                this.state.projectCreator !== '' &&
-                this.state.projectName !== '' &&
-                this.state.workOrder !== '' && (
-                  <ThumbnailViewer
-                    type="pdf"
-                    //filepath={`/api/getPDFFile_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
-                    filepath = {this.checkItemURL_getPDFFile(this.state.item, filename)}
-                  />
+                fileExt === "pptx") && (
+                <ThumbnailViewer
+                  type="pdf"
+                  filepath={`/api/${
+                    foldername.lastIndexOf("/") >= 0
+                      ? "GetPDFFile_Item"
+                      : "GetPDFFile_WO"
+                  }/${this.state.year.value}/${
+                    this.state.projectCreator.value
+                  }/${
+                    this.state.projectName.value
+                  }/${foldername}/${encodeURIComponent(filename)}`}
+                />
               )}
 
               {(fileExt === "jpg" ||
                 fileExt === "jpeg" ||
-                fileExt === "png") && 
-                this.state.year !== '' && 
-                this.state.projectCreator !== '' &&
-                this.state.projectName !== '' &&
-                this.state.workOrder !== '' && (
-                  <ThumbnailViewer
-                    type="pdf"
-                    //filepath={`/api/getPDFFromImages_WO/${this.state.year}/${this.state.projectCreator}/${this.state.projectName}/${this.state.workOrder}/${filename}`}
-                    filepath = {this.checkItemURL_getPDFFromImages(this.state.item, filename)}
-                  />
+                fileExt === "png") && (
+                <ThumbnailViewer
+                  type="pdf"
+                  filepath={`/api/${
+                    foldername.lastIndexOf("/") >= 0
+                      ? "GetPDFFromImages_Item"
+                      : "GetPDFFromImages_WO"
+                  }/${this.state.year.value}/${
+                    this.state.projectCreator.value
+                  }/${
+                    this.state.projectName.value
+                  }/${foldername}/${encodeURIComponent(filename)}`}
+                />
+              )}
+
+              {fileExt === "" && (
+                <img src={FolderImg} width="100%" height="100%" alt="user" />
               )}
             </div>
           </button>
-
           <div className="topoverlay">
             <PreviewPage
-              foldername={listFolders}
+              foldername={parentFolder}
               filename={filename}
               ext={fileExt}
+              onOpenFolder={this.onOpenFolder}
             />
           </div>
         </div>
@@ -376,7 +291,8 @@ class HomePage extends Component {
   };
 
   render() {
-    const { foldernames, listYears, listProjectCreators, listProjectNames, listWorkOrders, listItems } = this.state;
+    const { listYears, listProjectCreators, listProjectNames, listWorkOrders } =
+      this.state;
     return (
       <>
         <div className="outer justify-content-center">
@@ -384,86 +300,149 @@ class HomePage extends Component {
             <div className="inner inner-extension rounded padding-20px">
               <div>
                 <div className="text-center">
-                  <h5>
-                    <strong>
-                      Type/Select 1 Option at the time
-                    </strong>
-                  </h5>
+                  <h4>
+                    <strong>Please select options</strong>
+                  </h4>
                 </div>
                 <br />
                 <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
-                    <b>Year</b>
-                  </h6>
-                  <div style={{ minWidth: "600px" }}>
-                    <Select
-                      placeholder="Select years"
-                      options={listYears}
-                      isMulti={true}
-                      onChange={this.handleSelectChangeYear}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "lightblue",
+                      border: "solid thin lightgray",
+                      borderRadius: "3px",
+                    }}
+                  >
+                    <h6
+                      style={{
+                        width: "150px",
+                        marginBottom: "0px",
+                        paddingRight: "20px",
+                        textAlign: "right",
+                      }}
+                    >
+                      <b>Year</b>
+                    </h6>
+                    <div style={{ minWidth: "500px" }}>
+                      <Select
+                        placeholder="Select years"
+                        options={listYears}
+                        onChange={this.handleSelectChangeYear}
+                        value={this.state.year}
+                      />
+                    </div>
                   </div>
                 </div>
 
-
                 <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
-                    <b>Project Creator</b>
-                  </h6>
-                  <div style={{ minWidth: "600px" }}>
-                    <Select
-                      placeholder="Select project creator"
-                      options={listProjectCreators}
-                      isMulti={true}
-                      onChange={this.handleSelectChangeProjectCreator}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
-                    <b>Project Name</b>
-                  </h6>
-                  <div style={{ minWidth: "600px" }}>
-                    <Select
-                      placeholder="Select project name"
-                      options={listProjectNames}
-                      isMulti={true}
-                      onChange={this.handleSelectChangeProjectName}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
-                    <b>Work Order</b>
-                  </h6>
-                  <div style={{ minWidth: "600px" }}>
-                    <Select
-                      placeholder="Select your work order"
-                      options={listWorkOrders}
-                      isMulti={true}
-                      onChange={this.handleSelectChangeWorkOrder}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "lightblue",
+                      border: "solid thin lightgray",
+                      borderRadius: "3px",
+                    }}
+                  >
+                    <h6
+                      style={{
+                        width: "150px",
+                        marginBottom: "0px",
+                        paddingRight: "20px",
+                        textAlign: "right",
+                      }}
+                    >
+                      <b>Project Creator</b>
+                    </h6>
+                    <div style={{ minWidth: "500px" }}>
+                      <Select
+                        placeholder="Select project creator"
+                        options={listProjectCreators}
+                        onChange={this.handleSelectChangeProjectCreator}
+                        value={this.state.projectCreator}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <h6 style={{ width: "120px", marginBottom: "0px" }}>
-                    <b>Item</b>
-                  </h6>
-                  <div style={{ minWidth: "600px" }}>
-                    <Select
-                      placeholder="Select your item"
-                      options={listItems}
-                      isMulti={true}
-                      onChange={this.handleSelectChangeItem}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "lightblue",
+                      border: "solid thin lightgray",
+                      borderRadius: "3px",
+                    }}
+                  >
+                    <h6
+                      style={{
+                        width: "150px",
+                        marginBottom: "0px",
+                        paddingRight: "20px",
+                        textAlign: "right",
+                      }}
+                    >
+                      <b>Project Name</b>
+                    </h6>
+                    <div style={{ minWidth: "500px" }}>
+                      <Select
+                        placeholder="Select project name"
+                        options={listProjectNames}
+                        onChange={this.handleSelectChangeProjectName}
+                        value={this.state.projectName}
+                      />
+                    </div>
                   </div>
                 </div>
-                  <div style={{ paddingRight: "20px", textAlign: "center", paddingTop: "20px" }}>
-                    <button type="button" className="btn btn-info" onClick={this.onSearch}>
-                      Search
-                    </button>
+                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "lightblue",
+                      border: "solid thin lightgray",
+                      borderRadius: "3px",
+                    }}
+                  >
+                    <h6
+                      style={{
+                        width: "150px",
+                        marginBottom: "0px",
+                        paddingRight: "20px",
+                        textAlign: "right",
+                      }}
+                    >
+                      <b>Work Order</b>
+                    </h6>
+                    <div style={{ minWidth: "500px" }}>
+                      <Select
+                        placeholder="Select your work order"
+                        options={listWorkOrders}
+                        isMulti={true}
+                        onChange={this.handleSelectChangeWorkOrder}
+                        value={this.state.workOrder}
+                      />
+                    </div>
                   </div>
                 </div>
+                <div
+                  style={{
+                    paddingRight: "20px",
+                    textAlign: "center",
+                    paddingTop: "20px",
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="btn btn-info"
+                    onClick={this.onSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
               <br />
               <br />
               <br />

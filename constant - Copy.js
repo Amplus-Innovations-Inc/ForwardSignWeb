@@ -7,3 +7,7 @@ module.exports.MongoDB = {
 module.exports.SyncedTool = {
   root: "C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder",
 };
+
+module.exports.Printer = {
+  name: "Microsoft Print to PDF",
+};

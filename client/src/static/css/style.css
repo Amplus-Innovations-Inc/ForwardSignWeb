@@ -492,6 +492,6 @@ button:hover:enabled {
   display: block !important;
 }
 
-.pdf-canvas canvas { 
-  height: 200px 
+.pdf-canvas canvas {
+  height: 200px;
 }
