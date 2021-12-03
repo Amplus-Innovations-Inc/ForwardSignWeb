@@ -1,7 +1,5 @@
-import React, { Component, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import ThumbnailViewer from "./ThumbnailViewer";
-import ReactToPrint from "react-to-print";
 import { Viewer, Worker, SpecialZoomLevel } from "@react-pdf-viewer/core";
 
 // Plugins
@@ -40,6 +38,17 @@ export default function PreviewPage(props) {
       >
         {props.ext !== "" ? "Preview" : "Open"}
       </button>
+      <div style={{ height: "10px" }}></div>
+
+      {props.ext !== "" && (
+        <button
+          type="button"
+          className="btn btn-info btn-sm"
+          onClick={() => props.onPrintFile(wo, props.filename)}
+        >
+          Print
+        </button>
+      )}
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>

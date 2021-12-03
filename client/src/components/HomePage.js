@@ -5,6 +5,8 @@ import ThumbnailViewer from "./ThumbnailViewer";
 import PreviewPage from "./PreviewPage";
 import "file-viewer";
 import FolderImg from "../static/images/folder.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class HomePage extends Component {
   constructor(props) {
@@ -57,6 +59,7 @@ class HomePage extends Component {
           projectCreator: null,
           projectName: null,
           workOrder: null,
+          filenames: [],
         });
       }
     });
@@ -79,6 +82,7 @@ class HomePage extends Component {
             projectCreator: value,
             projectName: null,
             workOrder: null,
+            filenames: [],
           });
         }
       });
@@ -102,6 +106,7 @@ class HomePage extends Component {
             listWorkOrders: temp,
             projectName: value,
             workOrder: null,
+            filenames: [],
           });
         }
       });
@@ -110,6 +115,7 @@ class HomePage extends Component {
   handleSelectChangeWorkOrder = async (value) => {
     this.setState({
       workOrder: value,
+      filenames: [],
     });
   };
 
@@ -252,6 +258,7 @@ class HomePage extends Component {
               filename={filename}
               ext={fileExt}
               onOpenFolder={this.onOpenFolder}
+              onPrintFile={this.printFile}
             />
           </div>
         </div>
@@ -264,16 +271,86 @@ class HomePage extends Component {
     );
   };
 
+  refreshFolder = (e) => {
+    e.preventDefault();
+    this.onSearch();
+  };
+
+  printFile = (foldername, filename) => {
+    toast.info(`Sending file ${filename} to the printer`);
+    axios
+      .post("/api/printFile", {
+        year: this.state.year.value,
+        pc: this.state.projectCreator.value,
+        pn: this.state.projectName.value,
+        wo: foldername,
+        filename: filename,
+      })
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(`File ${filename} has been printed successfully`);
+        } else {
+          toast.error(`File ${filename} has failed to print!`);
+        }
+      });
+  };
+
   buildThumbnails = (e, i) => {
     let count = 0;
     let thumbnails = [];
     const len = e.files.length;
     thumbnails.push(<hr />);
-    thumbnails.push(
-      <h6 style={{ backgroundColor: "antiquewhite", padding: "5px" }}>
-        <b>{e.folder}</b>
-      </h6>
-    );
+
+    if (e.folder.lastIndexOf("/") >= 0) {
+      let temp = e.folder.split("/");
+      if (temp.length > 1) {
+        thumbnails.push(
+          <h6
+            style={{
+              backgroundColor: "antiquewhite",
+              padding: "5px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <a
+                href="www.google.com"
+                onClick={this.refreshFolder}
+                title="Refresh the work order"
+              >
+                <b>{temp[0]}</b>
+              </a>
+              <span>
+                <b>/{temp[1]}</b>
+              </span>
+            </div>
+          </h6>
+        );
+      }
+    } else {
+      thumbnails.push(
+        <h6
+          style={{
+            backgroundColor: "antiquewhite",
+            padding: "5px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <a
+            href="www.google.com"
+            onClick={this.refreshFolder}
+            title="Refresh the work order"
+          >
+            <b>{e.folder}</b>
+          </a>
+        </h6>
+      );
+    }
+
     while (count < len) {
       thumbnails.push(
         <>
@@ -295,6 +372,7 @@ class HomePage extends Component {
       this.state;
     return (
       <>
+        <ToastContainer position="bottom-right" autoClose={3000} />
         <div className="outer justify-content-center">
           <div className="container-fluid padding-30px">
             <div className="inner inner-extension rounded padding-20px">
@@ -438,6 +516,13 @@ class HomePage extends Component {
                     type="button"
                     className="btn btn-info"
                     onClick={this.onSearch}
+                    disabled={
+                      this.state.year === null ||
+                      this.state.projectCreator === null ||
+                      this.state.projectName === null ||
+                      this.state.workOrder === null ||
+                      this.state.workOrder.length === 0
+                    }
                   >
                     Search
                   </button>
