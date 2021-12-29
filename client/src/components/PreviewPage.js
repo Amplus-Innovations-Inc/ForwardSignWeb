@@ -30,25 +30,19 @@ export default function PreviewPage(props) {
       <button
         type="button"
         className="btn btn-info btn-sm"
-        onClick={() =>
-          props.ext !== ""
-            ? setShow(true)
-            : props.onOpenFolder(wo, props.filename)
-        }
+        onClick={() => setShow(true)}
       >
-        {props.ext !== "" ? "Preview" : "Open"}
+        Preview
       </button>
       <div style={{ height: "10px" }}></div>
 
-      {props.ext !== "" && (
-        <button
-          type="button"
-          className="btn btn-info btn-sm"
-          onClick={() => props.onPrintFile(wo, props.filename)}
-        >
-          Print
-        </button>
-      )}
+      <button
+        type="button"
+        className="btn btn-info btn-sm"
+        onClick={() => props.onPrintFile(wo, props.filename)}
+      >
+        Print
+      </button>
 
       <Modal show={show} onHide={() => setShow(false)} size="lg">
         <Modal.Header closeButton>

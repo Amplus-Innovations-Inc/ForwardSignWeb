@@ -182,3 +182,9 @@ operable program or batch file.
 [2021/12/03 08:13:08] error: Unable to write page
 [2021/12/03 08:16:51] error: Unable to write page
 [2021/12/03 14:24:21] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1B
+[2021/12/23 12:32:41] warn: Cannot find username:anh_tranquoc@outlook.com and password:NiVuYW1uaHVtb2luYW1B
+[2021/12/23 12:32:46] warn: Cannot find username:anh_tranquoc@outlook.com and password:MTIzNDU=
+[2021/12/28 17:59:12] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder/undefined/undefined/undefined\20J6547'
+[2021/12/28 18:03:47] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder/undefined/undefined/undefined\20J6547'
+[2021/12/28 18:04:28] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder/undefined/undefined/undefined\20J6547'
+[2021/12/28 18:05:40] error: ENOENT: no such file or directory, scandir 'C:/Users/anh_t/SyncedFolder/SalesforceFiles/WorkOrder/undefined/undefined/undefined\20J6547'

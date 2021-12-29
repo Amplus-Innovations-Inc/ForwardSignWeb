@@ -23,7 +23,9 @@ class HomePage extends Component {
       projectName: null,
       workOrder: null,
       item: null,
+      onScanner: false,
     };
+    this.searchButton = React.createRef();
   }
 
   componentDidMount() {
@@ -119,6 +121,51 @@ class HomePage extends Component {
     });
   };
 
+  handleKeyDown = (e) => {
+    // run after 1 second => make sure all characters have been populated already.
+    setTimeout(() => {
+      console.log("e:" + e.target.value);
+      if (!this.state.onScanner) {
+        this.setState({
+          onScanner: true,
+        });
+        this.findAncestors(e.target.value, e);
+      }
+    }, 1000);
+  };
+
+  findAncestors = (wo, e) => {
+    axios
+      .get(`/api/getAncestors/${wo}`)
+      .then((res) => {
+        if (res.data.year !== "") {
+          this.setState({
+            listYears: [{ value: res.data.year, label: res.data.year }],
+            year: { value: res.data.year, label: res.data.year },
+            listProjectCreators: [{ value: res.data.pc, label: res.data.pc }],
+            projectCreator: { value: res.data.pc, label: res.data.pc },
+            listProjectNames: [{ value: res.data.pn, label: res.data.pn }],
+            projectName: { value: res.data.pn, label: res.data.pn },
+            listWorkOrders: [{ value: res.data.wo, label: res.data.wo }],
+            workOrder: [{ value: res.data.wo, label: res.data.wo }],
+            onScanner: false,
+          });
+          this.onSearch();
+        } else {
+          this.setState({
+            onScanner: false,
+          });
+          toast.error(`${wo} does not exist in the database.`);
+        }
+        this.searchButton.current.focus();
+      })
+      .catch((error) => {
+        this.setState({
+          onScanner: false,
+        });
+      });
+  };
+
   onSearch = async () => {
     const temp = [];
     for (const e of this.state.workOrder) {
@@ -126,10 +173,29 @@ class HomePage extends Component {
         `/api/getFileNames_WO/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${e.label}`
       );
       if (res.status === 200) {
+        let temp_filenames = [];
+        let temp_foldernames = [];
+        for (const element of res.data.filenames) {
+          if (element.lastIndexOf(".") >= 0) {
+            temp_filenames.push(element);
+          } else {
+            temp_foldernames.push(element);
+          }
+        }
+
         temp.push({
           folder: e.label,
-          files: res.data.filenames,
+          files: temp_filenames,
         });
+
+        // get all files in item folder
+        for (const item of temp_foldernames) {
+          const values = await this.getFileNameInItem(e.label, item);
+          temp.push({
+            folder: e.label + "/" + item,
+            files: values,
+          });
+        }
       }
     }
 
@@ -138,23 +204,12 @@ class HomePage extends Component {
     });
   };
 
-  onOpenFolder = (wo, itemName) => {
-    axios
-      .get(
-        `/api/getFileNames_Item/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${wo}/${itemName}`
-      )
-      .then((res) => {
-        let temp = this.state.filenames;
-        for (let element of temp) {
-          if (element.folder === wo) {
-            element.folder = element.folder + "/" + itemName;
-            element.files = res.data.filenames;
-          }
-        }
-        this.setState({
-          filenames: temp,
-        });
-      });
+  getFileNameInItem = async (wo, itemName) => {
+    let response = await axios.get(
+      `/api/getFileNames_Item/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${wo}/${itemName}`
+    );
+
+    return response.data.filenames;
   };
 
   tailorFileName = (filename) => {
@@ -257,7 +312,7 @@ class HomePage extends Component {
               foldername={parentFolder}
               filename={filename}
               ext={fileExt}
-              onOpenFolder={this.onOpenFolder}
+              //onOpenFolder={this.onOpenFolder}
               onPrintFile={this.printFile}
             />
           </div>
@@ -321,10 +376,10 @@ class HomePage extends Component {
                 title="Refresh the work order"
               >
                 <b>{temp[0]}</b>
+                <span>
+                  <b> -&gt; {temp[1]}</b>
+                </span>
               </a>
-              <span>
-                <b>/{temp[1]}</b>
-              </span>
             </div>
           </h6>
         );
@@ -500,6 +555,7 @@ class HomePage extends Component {
                         options={listWorkOrders}
                         isMulti={true}
                         onChange={this.handleSelectChangeWorkOrder}
+                        onKeyDown={this.handleKeyDown}
                         value={this.state.workOrder}
                       />
                     </div>
@@ -513,6 +569,7 @@ class HomePage extends Component {
                   }}
                 >
                   <button
+                    ref={this.searchButton}
                     type="button"
                     className="btn btn-info"
                     onClick={this.onSearch}

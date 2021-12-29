@@ -16,6 +16,7 @@ const {
   GetProjectName,
   GetWorkOrder,
   GetItem,
+  GetAncestors,
 } = require("../utils/FileHandler");
 
 const { PrintFile } = require("../utils/PrinterHandler");
@@ -64,6 +65,8 @@ router.get("/getProjectCreator/:year", GetProjectCreator);
 router.get("/getProjectName/:year/:projectCreator", GetProjectName);
 router.get("/getWorkOrder/:year/:projectCreator/:projectName", GetWorkOrder);
 router.get("/getItem/:year/:projectCreator/:projectName/:workOrder", GetItem);
+
+router.get("/getAncestors/:workOrder", GetAncestors);
 
 router.post("/printFile", PrintFile);
 
