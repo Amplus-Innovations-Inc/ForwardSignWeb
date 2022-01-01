@@ -24,25 +24,40 @@ class HomePage extends Component {
       workOrder: null,
       item: null,
       onScanner: false,
+      byPassMode: false,
     };
     this.searchButton = React.createRef();
   }
 
   componentDidMount() {
-    axios.get("/api/getYear").then((res) => {
-      if (res.status === 200) {
-        let temp = [];
-        for (const e of res.data.foldernames) {
-          temp.push({
-            value: e,
-            label: e,
+    if (
+      sessionStorage.getItem("wo") !== undefined &&
+      sessionStorage.getItem("wo") !== null &&
+      sessionStorage.getItem("wo") !== ""
+    ) {
+      // this is a bypassmode
+      this.setState({
+        filenames: [],
+        onScanner: true,
+        byPassMode: true,
+      });
+      this.findAncestors(sessionStorage.getItem("wo"));
+    } else {
+      axios.get("/api/getYear").then((res) => {
+        if (res.status === 200) {
+          let temp = [];
+          for (const e of res.data.foldernames) {
+            temp.push({
+              value: e,
+              label: e,
+            });
+          }
+          this.setState({
+            listYears: temp,
           });
         }
-        this.setState({
-          listYears: temp,
-        });
-      }
-    });
+      });
+    }
   }
 
   handleSelectChangeYear = async (value) => {
@@ -122,19 +137,21 @@ class HomePage extends Component {
   };
 
   handleKeyDown = (e) => {
+    console.log("e:" + e.target.value);
     // run after 1 second => make sure all characters have been populated already.
     setTimeout(() => {
       console.log("e:" + e.target.value);
       if (!this.state.onScanner) {
         this.setState({
+          filenames: [],
           onScanner: true,
         });
-        this.findAncestors(e.target.value, e);
+        this.findAncestors(e.target.value);
       }
     }, 1000);
   };
 
-  findAncestors = (wo, e) => {
+  findAncestors = (wo) => {
     axios
       .get(`/api/getAncestors/${wo}`)
       .then((res) => {
@@ -150,7 +167,7 @@ class HomePage extends Component {
             workOrder: [{ value: res.data.wo, label: res.data.wo }],
             onScanner: false,
           });
-          this.onSearch();
+          this.callOnSearchDelay(500);
         } else {
           this.setState({
             onScanner: false,
@@ -166,8 +183,18 @@ class HomePage extends Component {
       });
   };
 
+  sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  callOnSearchDelay = async (time) => {
+    await this.sleep(time);
+    this.onSearch();
+  };
+
   onSearch = async () => {
     const temp = [];
+    console.log("this.state.workOrder:" + this.state.workOrder);
     for (const e of this.state.workOrder) {
       const res = await axios.get(
         `/api/getFileNames_WO/${this.state.year.value}/${this.state.projectCreator.value}/${this.state.projectName.value}/${e.label}`
@@ -431,163 +458,166 @@ class HomePage extends Component {
         <div className="outer justify-content-center">
           <div className="container-fluid padding-30px">
             <div className="inner inner-extension rounded padding-20px">
-              <div>
-                <div className="text-center">
-                  <h4>
-                    <strong>Please select options</strong>
-                  </h4>
-                </div>
-                <br />
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: "lightblue",
-                      border: "solid thin lightgray",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    <h6
+              {!this.state.byPassMode && (
+                <div>
+                  <div className="text-center">
+                    <h4>
+                      <strong>Please select options</strong>
+                    </h4>
+                  </div>
+                  <br />
+                  <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                    <div
                       style={{
-                        width: "150px",
-                        marginBottom: "0px",
-                        paddingRight: "20px",
-                        textAlign: "right",
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "lightblue",
+                        border: "solid thin lightgray",
+                        borderRadius: "3px",
                       }}
                     >
-                      <b>Year</b>
-                    </h6>
-                    <div style={{ minWidth: "500px" }}>
-                      <Select
-                        placeholder="Select years"
-                        options={listYears}
-                        onChange={this.handleSelectChangeYear}
-                        value={this.state.year}
-                      />
+                      <h6
+                        style={{
+                          width: "150px",
+                          marginBottom: "0px",
+                          paddingRight: "20px",
+                          textAlign: "right",
+                        }}
+                      >
+                        <b>Year</b>
+                      </h6>
+                      <div style={{ minWidth: "500px" }}>
+                        <Select
+                          placeholder="Select years"
+                          options={listYears}
+                          onChange={this.handleSelectChangeYear}
+                          value={this.state.year}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: "lightblue",
-                      border: "solid thin lightgray",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    <h6
+                  <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                    <div
                       style={{
-                        width: "150px",
-                        marginBottom: "0px",
-                        paddingRight: "20px",
-                        textAlign: "right",
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "lightblue",
+                        border: "solid thin lightgray",
+                        borderRadius: "3px",
                       }}
                     >
-                      <b>Project Creator</b>
-                    </h6>
-                    <div style={{ minWidth: "500px" }}>
-                      <Select
-                        placeholder="Select project creator"
-                        options={listProjectCreators}
-                        onChange={this.handleSelectChangeProjectCreator}
-                        value={this.state.projectCreator}
-                      />
+                      <h6
+                        style={{
+                          width: "150px",
+                          marginBottom: "0px",
+                          paddingRight: "20px",
+                          textAlign: "right",
+                        }}
+                      >
+                        <b>Project Creator</b>
+                      </h6>
+                      <div style={{ minWidth: "500px" }}>
+                        <Select
+                          placeholder="Select project creator"
+                          options={listProjectCreators}
+                          onChange={this.handleSelectChangeProjectCreator}
+                          value={this.state.projectCreator}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: "lightblue",
-                      border: "solid thin lightgray",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    <h6
+                  <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                    <div
                       style={{
-                        width: "150px",
-                        marginBottom: "0px",
-                        paddingRight: "20px",
-                        textAlign: "right",
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "lightblue",
+                        border: "solid thin lightgray",
+                        borderRadius: "3px",
                       }}
                     >
-                      <b>Project Name</b>
-                    </h6>
-                    <div style={{ minWidth: "500px" }}>
-                      <Select
-                        placeholder="Select project name"
-                        options={listProjectNames}
-                        onChange={this.handleSelectChangeProjectName}
-                        value={this.state.projectName}
-                      />
+                      <h6
+                        style={{
+                          width: "150px",
+                          marginBottom: "0px",
+                          paddingRight: "20px",
+                          textAlign: "right",
+                        }}
+                      >
+                        <b>Project Name</b>
+                      </h6>
+                      <div style={{ minWidth: "500px" }}>
+                        <Select
+                          placeholder="Select project name"
+                          options={listProjectNames}
+                          onChange={this.handleSelectChangeProjectName}
+                          value={this.state.projectName}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: "lightblue",
-                      border: "solid thin lightgray",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    <h6
+                  <div className="d-flex justify-content-center align-items-center padding-top-10px padding-bottom-10px">
+                    <div
                       style={{
-                        width: "150px",
-                        marginBottom: "0px",
-                        paddingRight: "20px",
-                        textAlign: "right",
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "lightblue",
+                        border: "solid thin lightgray",
+                        borderRadius: "3px",
                       }}
                     >
-                      <b>Work Order</b>
-                    </h6>
-                    <div style={{ minWidth: "500px" }}>
-                      <Select
-                        placeholder="Select your work order"
-                        options={listWorkOrders}
-                        isMulti={true}
-                        onChange={this.handleSelectChangeWorkOrder}
-                        onKeyDown={this.handleKeyDown}
-                        value={this.state.workOrder}
-                      />
+                      <h6
+                        style={{
+                          width: "150px",
+                          marginBottom: "0px",
+                          paddingRight: "20px",
+                          textAlign: "right",
+                        }}
+                      >
+                        <b>Work Order</b>
+                      </h6>
+                      <div style={{ minWidth: "500px" }}>
+                        <Select
+                          placeholder="Select your work order"
+                          options={listWorkOrders}
+                          isMulti={true}
+                          onChange={this.handleSelectChangeWorkOrder}
+                          onKeyDown={this.handleKeyDown}
+                          value={this.state.workOrder}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  style={{
-                    paddingRight: "20px",
-                    textAlign: "center",
-                    paddingTop: "20px",
-                  }}
-                >
-                  <button
-                    ref={this.searchButton}
-                    type="button"
-                    className="btn btn-info"
-                    onClick={this.onSearch}
-                    disabled={
-                      this.state.year === null ||
-                      this.state.projectCreator === null ||
-                      this.state.projectName === null ||
-                      this.state.workOrder === null ||
-                      this.state.workOrder.length === 0
-                    }
+                  <div
+                    style={{
+                      paddingRight: "20px",
+                      textAlign: "center",
+                      paddingTop: "20px",
+                    }}
                   >
-                    Search
-                  </button>
+                    <button
+                      ref={this.searchButton}
+                      type="button"
+                      className="btn btn-info"
+                      onClick={this.onSearch}
+                      disabled={
+                        this.state.year === null ||
+                        this.state.projectCreator === null ||
+                        this.state.projectName === null ||
+                        this.state.workOrder === null ||
+                        this.state.workOrder.length === 0
+                      }
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <br />
+                  <br />
+                  <br />
                 </div>
-              </div>
-              <br />
-              <br />
-              <br />
+              )}
+
               {this.state.filenames.map((e, i) => {
                 return this.buildThumbnails(e, i);
               })}

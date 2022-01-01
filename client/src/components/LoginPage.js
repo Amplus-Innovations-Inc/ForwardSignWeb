@@ -17,10 +17,6 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 const eye = <FontAwesomeIcon icon={faEye} />;
 const eyeSlash = <FontAwesomeIcon icon={faEyeSlash} />;
 
-const encodeData = (data) => {
-  return Buffer.from(data).toString("base64");
-};
-
 class LoginPage extends Component {
   constructor(props) {
     super(props);

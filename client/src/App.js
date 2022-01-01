@@ -15,6 +15,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./static/css/App.css";
 import "./static/css/style.css";
 import HomePage from "./components/HomePage";
+import ByPassAuthorization from "./components/ByPassAuthorization";
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LoginPage} />
           <Route exact path="/sign-in" component={LoginPage} />
+          <Route exact path="/bypass" component={ByPassAuthorization} />
           <React.Fragment>
             <div>
               <MenuPage />
@@ -47,12 +49,15 @@ class App extends Component {
                     path="/home"
                     render={() => this.isRender(HomePage)}
                   />
+                  <Route
+                    path="*"
+                    render={() => this.isRender(UnauthorizedPage)}
+                  />
                 </Switch>
               </div>
               <FooterPage />
             </div>
           </React.Fragment>
-          <Route path="*" component={UnauthorizedPage} />
         </Switch>
       </Router>
     );
