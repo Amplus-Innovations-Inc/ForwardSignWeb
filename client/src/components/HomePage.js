@@ -25,9 +25,77 @@ class HomePage extends Component {
       item: null,
       onScanner: false,
       byPassMode: false,
+
+      printSelectedFiles: [],
     };
     this.searchButton = React.createRef();
   }
+
+  onSelectAllFiles = (e) => {
+    let temp = [];
+    for (const file of this.state.filenames) {
+      for (const item of file.files) {
+        temp.push({
+          filename: item,
+          folderName: file.folder,
+        });
+      }
+    }
+    this.setState({
+      printSelectedFiles: temp,
+    });
+
+    let checkboxes = document.getElementsByName("cbFiles");
+    for (let checkbox of checkboxes) {
+      checkbox.checked = true;
+    }
+  };
+
+  onUnselectAllFiles = (e) => {
+    this.setState({
+      printSelectedFiles: [],
+    });
+
+    let checkboxes = document.getElementsByName("cbFiles");
+    for (let checkbox of checkboxes) {
+      checkbox.checked = false;
+    }
+  };
+
+  timeout = (delay) => {
+    return new Promise((res) => setTimeout(res, delay));
+  };
+
+  onPrintSelectedItems = async (e) => {
+    for (const item of this.state.printSelectedFiles) {
+      await this.timeout(5000);
+      console.log("Printing " + item.folderName + "/" + item.filename);
+      this.printFile(item.folderName, item.filename);
+    }
+  };
+
+  onSelectedFile = (e, filename, folderName) => {
+    let temp = this.state.printSelectedFiles;
+    if (e.target.checked) {
+      temp.push({
+        filename,
+        folderName,
+      });
+    } else {
+      for (let i = 0; i < temp.length; i++) {
+        if (
+          temp[i].filename === filename &&
+          temp[i].folderName === folderName
+        ) {
+          temp.splice(i, 1);
+          break;
+        }
+      }
+    }
+    this.setState({
+      printSelectedFiles: temp,
+    });
+  };
 
   componentDidMount() {
     if (
@@ -349,6 +417,16 @@ class HomePage extends Component {
             {this.tailorFileName(filename)}
           </small>
         </div>
+        <div>
+          <div className="form-check">
+            <input
+              type="checkbox"
+              name="cbFiles"
+              className="form-check-input"
+              onClick={(e) => this.onSelectedFile(e, filename, foldername)}
+            />
+          </div>
+        </div>
       </div>
     );
   };
@@ -442,6 +520,7 @@ class HomePage extends Component {
             {count < len && this.buildThumbnail(e.folder, e.files[count++])}
             {count < len && this.buildThumbnail(e.folder, e.files[count++])}
           </div>
+          <br />
           <br />
         </>
       );
@@ -611,8 +690,67 @@ class HomePage extends Component {
                     >
                       Search
                     </button>
+
+                    {this.state.filenames.length > 0 && (
+                      <button
+                        style={{ marginLeft: "20px" }}
+                        type="button"
+                        className="btn btn-info"
+                        onClick={this.onSelectAllFiles}
+                        disabled={
+                          this.state.year === null ||
+                          this.state.projectCreator === null ||
+                          this.state.projectName === null ||
+                          this.state.workOrder === null ||
+                          this.state.workOrder.length === 0
+                        }
+                      >
+                        Select All Files
+                      </button>
+                    )}
+
+                    {this.state.filenames.length > 0 && (
+                      <button
+                        style={{ marginLeft: "20px" }}
+                        type="button"
+                        className="btn btn-info"
+                        onClick={this.onUnselectAllFiles}
+                        disabled={
+                          this.state.year === null ||
+                          this.state.projectCreator === null ||
+                          this.state.projectName === null ||
+                          this.state.workOrder === null ||
+                          this.state.workOrder.length === 0
+                        }
+                      >
+                        Unselect All Files
+                      </button>
+                    )}
                   </div>
                   <br />
+                  <div
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    {this.state.printSelectedFiles.length > 0 && (
+                      <button
+                        style={{ marginLeft: "20px" }}
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.onPrintSelectedItems}
+                        disabled={
+                          this.state.year === null ||
+                          this.state.projectCreator === null ||
+                          this.state.projectName === null ||
+                          this.state.workOrder === null ||
+                          this.state.workOrder.length === 0
+                        }
+                      >
+                        Print Selected Files
+                      </button>
+                    )}
+                  </div>
                   <br />
                   <br />
                 </div>
