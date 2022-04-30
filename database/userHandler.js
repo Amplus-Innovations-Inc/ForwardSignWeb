@@ -11,7 +11,10 @@ module.exports.authenticateUser = async (req, res, next) => {
     const db = mongoUtil.getDb();
     const results = await db
       .collection("users")
-      .find({ email: userName, password: encode })
+      .find({
+        email: new RegExp("^" + userName + "$", "i"),
+        password: encode,
+      })
       .toArray();
     if (results !== null && results.length === 1) {
       if (results[0].isActive) {

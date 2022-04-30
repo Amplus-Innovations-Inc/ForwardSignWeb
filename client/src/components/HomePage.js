@@ -221,7 +221,7 @@ class HomePage extends Component {
 
   findAncestors = (wo) => {
     axios
-      .get(`/api/getAncestors/${wo}`)
+      .get(`/api/getAncestors/${wo.toUpperCase()}`)
       .then((res) => {
         if (res.data.year !== "") {
           this.setState({
@@ -240,7 +240,7 @@ class HomePage extends Component {
           this.setState({
             onScanner: false,
           });
-          toast.error(`${wo} does not exist in the database.`);
+          //toast.error(`${wo} does not exist in the database.`);
         }
         this.searchButton.current.focus();
       })
